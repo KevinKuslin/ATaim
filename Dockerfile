@@ -1,7 +1,6 @@
-# Dockerfile untuk HuggingFace Space face-recognition
 FROM python:3.10-slim
 
-# Install build tools yang diperlukan untuk dlib dan opencv
+# Install sistem dependencies untuk dlib dan OpenCV
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
@@ -12,14 +11,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libboost-all-dev \
     libopenblas-dev \
     liblapack-dev \
+    libx11-dev \
+    libxrender-dev \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Environment variables untuk dlib
+ENV DLIB_USE_CUDA=0
+ENV DLIB_USE_CUDA_SLOW=0
+ENV FORCE_CUDA=0
+ENV PATH="/home/user/.local/bin:$PATH"
 
 # Buat user non-root
 RUN useradd -m -u 1000 user
 USER user
-ENV PATH="/home/user/.local/bin:$PATH"
 
-WORKDIR /app    
+WORKDIR /app
 
 # Copy requirements
 COPY --chown=user:root requirements.txt requirements.txt
