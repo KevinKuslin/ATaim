@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATaim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/A_Putih.png') }}" type="image/x-icon">
+</head>
+<body>
+    <!-- HEADER -->
+    <header onclick="goTemplate()">
+        <span>
+            <div class="topheader">
+                <a class="logo" href="{{ url_for('static', filename='html/index.html') }}">
+                    <img src="{{ url_for('static', filename='assets/ataim2.png') }}" alt="">
+                </a>
+            </div>
+        </span>
+    </header>
+
+    <!-- MAIN -->
+    <main>
+    <!-- LEFT -->
+    <div class="left-panel">
+        <div class="date" id="currentDate"></div>
+        <!-- CAMERA BLOCK -->
+        <div class="camera">
+            <img id="video" src="{{ url_for('video_feed') }}" width="540" height="420">
+        </div>
+        <div class="clock" id="clock">HH : MM : SS</div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-panel">
+        <div class="button-group">
+            <button class="btn btn-red" onclick="resetAttendance()">❌</button>
+            <button class="btn btn-green" onclick="goStudent()">👥</button>
+        </div>
+
+        <div class="id-card">Photo ID Card</div>
+
+        <div class="attendee">
+            <h3>RECENT ATTENDEE</h3>
+            <ul id="recentList">
+                {% for nama in nama_list %}
+                <li>🔍 {{ nama }}</li>
+            {% else %}
+                <li>Belum ada yang hadir</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</main>
+
+</body>
+</html>

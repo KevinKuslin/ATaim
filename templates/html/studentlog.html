@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/A_Putih.png') }}" type="image/x-icon">
+</head>
+<body>
+    <header onclick="goTemplate()">
+        <span>
+            <div class="topheader">
+                <a class="logo" href="{{ url_for('static', filename='html/index.html') }}">
+                    <img src="{{ url_for('static', filename='assets/ataim2.png') }}" alt="">
+                </a>
+            </div>
+        </span>
+    </header>
+
+    <div class="container-student">
+    <!-- LEFT -->
+    <div class="left-student">
+        <div class="avatar">👤</div>
+        <div class="name" id="studentName">Select a student</div>
+        <div class="status">Status: <span id="studentStatus">-</span></div>
+
+        <div class="btn-group-student">
+            <button class="btn btn-red" onclick="changeStatus('Absent','red')">Absent</button>
+            <button class="btn btn-blue" onclick="changeStatus('Permit','blue')">Permit</button>
+            <button class="btn btn-green" onclick="changeStatus('Logged In','green')">In</button>
+        </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-student">
+        <div class="date-student">
+        <span>Monday, 01 January 2025</span>
+        <span>
+            <button class="btn btn-red" onclick="goTemplate()">❌</button>
+            <button class="btn btn-green" onclick="saveAttendance()">✅</button>
+        </span>
+    </div>
+    <div class="student-list">
+        <h3>STUDENT LIST</h3>
+        <ul id="studentList">
+        <!-- <li onclick="selectStudent(this)" data-name="Jonea Kristiawan" data-status="Logged In" data-color="green">
+            <span><span class="icon status-green"></span> Jonea Kristiawan</span>
+        </li>
+        <li onclick="selectStudent(this)" data-name="Kevin Jovani Kuslin" data-status="Logged In" data-color="green">
+            <span><span class="icon status-green"></span> Kevin Jiovanni Kuslin</span>
+        </li>
+        <li onclick="selectStudent(this)" data-name="Kevin Tanwiputra" data-status="Logged In" data-color="green">
+            <span><span class="icon status-green"></span> Kevin Tanwiputra</span>
+        </li>
+        <li onclick="selectStudent(this)" data-name="Adriel Bernhard Tanuhariono" data-status="Absent" data-color="red">
+            <span><span class="icon status-red"></span> Adriel Bernhard Tanuhariono</span>
+        </li> -->
+        </ul>
+    </div>
+    </div>
+</div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

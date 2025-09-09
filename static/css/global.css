@@ -1,0 +1,229 @@
+@font-face {
+    font-family: "Jura";
+    src: url(../assets/font/Jura-Medium.ttf);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #000;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+header h2 {
+    margin: 0;
+}
+
+/* GRID MAIN */
+main {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: calc(100vh - 60px);
+}
+
+.logo {
+    display: flex;
+    padding-top: 1vw;
+    align-content: center;
+    justify-content: space-around;
+}
+
+.logo img{
+    width: 7vw;
+}
+
+/* LEFT PANEL */
+.left-panel {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.date {
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-right: 400px;
+}
+
+.status-green {
+    color: green;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.status-red {
+    color: red;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.camera {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2EE592;
+    border-radius: 10px;
+    height: 470px;
+    width: 600px;
+    font-weight: bold;
+}
+
+.clock {
+    font-family: Jura;
+    margin-top: 20px;
+    font-size: 40px;
+    text-align: center;
+    letter-spacing: 5px;
+}
+
+.camera video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* biar pas kotak 600x600 */
+    border-radius: 10px;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    border-left: 2px solid #ccc;
+    padding: 20px;
+}
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.btn {
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-red { background: #f77; }
+.btn-green { background: #7f7; }
+.id-card {
+    background: #b28fff;
+    height: 200px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.attendee {
+    background: #eee;
+    padding: 15px;
+    border-radius: 10px;
+}
+.attendee h3 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.attendee ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.attendee li {
+    margin: 5px 0;
+}
+
+/* studentlog */
+.container-student {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    height: calc(100vh - 60px);
+}
+.left-student {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.avatar {
+    background: #ccc;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+.name {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.status {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.status span {
+    font-weight: bold;
+}
+.btn-group-student {
+    display: flex;
+    gap: 15px;
+}
+.btn-blue { background: #7cf; }
+
+.right-student {
+    background: #fff;
+    border-left: 2px solid #ccc;
+    padding: 10px;
+}
+.date-student {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.student-list {
+    border-top: 2px solid #000;
+}
+.student-list h3 {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 16px;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+li.active {
+    background: #e0e0e0;
+}
+.icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+/* .status-green { background: green; }
+.status-red { background: red; } */
+.status-blue { background: blue; }
