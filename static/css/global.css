@@ -123,6 +123,25 @@ main {
     margin-bottom: 20px;
     font-weight: bold;
 }
+
+.id-card .id-photo img {
+  border-radius: 10%;
+  width: 130px; 
+  height: auto; 
+  max-height: 185px;
+}
+
+.id-info {
+    text-align: center; 
+    margin-left: 20px; 
+    margin-top: 20px;
+ }
+
+.id-card .id-info h4 {
+  margin: 0;
+  font-size: 16px; 
+}
+
 .attendee {
     background: #eee;
     padding: 15px;

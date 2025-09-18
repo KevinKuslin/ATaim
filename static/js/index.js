@@ -154,24 +154,6 @@ async function saveAttendance() {
     }
 }
 
-// async function loadStatusPresensi() {
-//   try {
-//     const res = await fetch("/api/status_presensi");
-//     const data = await res.json();
-
-//     const list = document.getElementById("recentList");
-//     list.innerHTML = "";
-
-//     data.forEach(item => {
-//       const li = document.createElement("li");
-//       li.innerHTML = `🔍 ${item.nama} <span class="${item.status === 'Hadir' ? 'status-green' : 'status-red'}">${item.status}</span>`;
-//       list.appendChild(li);
-//     });
-//   } catch (err) {
-//     console.error("Gagal load status presensi:", err);
-//   }
-// }
-
 function selectStudent(element) {
   // Ambil data dari atribut li
   const name = element.getAttribute("data-name");
@@ -194,35 +176,6 @@ function selectStudent(element) {
     statusEl.classList.add("status-blue");
   }
 }
-
-// async function loadStudentList() {
-//   try {
-//     const res = await fetch("/api/status_presensi");
-//     const data = await res.json();
-//     console.log("DATA STUDENT LIST:", data);
-
-//     const list = document.getElementById("studentList");
-//     list.innerHTML = "";
-
-//     data.forEach(item => {
-//       const li = document.createElement("li");
-//       li.setAttribute("onclick", "selectStudent(this)");
-//       li.setAttribute("data-name", item.nama);
-//       li.setAttribute("data-status", item.status);
-
-//       // tentukan warna
-//       let color = "red";
-//       if (item.status === "Logged In" || item.status === "Hadir") color = "green";
-//       if (item.status === "Permit") color = "blue";
-
-//       li.setAttribute("data-color", color);
-//       li.innerHTML = `<span><span class="icon status-${color}"></span> ${item.nama}</span>`;
-//       list.appendChild(li);
-//     });
-//   } catch (err) {
-//     console.error("Gagal load student list:", err);
-//   }
-// }
 
 async function loadStatusPresensi() {
   try {
@@ -265,16 +218,49 @@ async function loadStatusPresensi() {
   }
 }
 
-// auto-refresh setiap 3 detik
-// if (document.getElementById("recentList")) {
-//     setInterval(loadStatusPresensi, 3000);
-//     loadStatusPresensi();
-// }
+// =======================================================================================
 
-// if (document.getElementById("studentList")) {
-//     setInterval(loadStudentList, 3000);
-//     loadStudentList();
-// }
+async function loadLastDetected() {
+  try {
+    const res = await fetch("/api/last_detected?t=" + Date.now()); // cegah cache
+    const data = await res.json();
 
-setInterval(loadStatusPresensi, 3000);
+    const nameEl = document.getElementById("idName");
+    const descEl = document.getElementById("idDesc");
+    const photoEl = document.getElementById("idPhoto");
+
+    if (data.nama) {
+      nameEl.textContent = data.nama;
+      descEl.textContent = "Terdeteksi hadir";
+      if (data.foto) {
+        photoEl.src = data.foto;
+      }
+    } else {
+      nameEl.textContent = "Belum ada yang terdeteksi";
+      descEl.textContent = "Menunggu deteksi...";
+      photoEl.src = "/static/assets/default.png"; // fallback
+    }
+  } catch (err) {
+    console.error("Gagal ambil last detected:", err);
+  }
+}
+
+// // auto-refresh tiap 2 detik
+// setInterval(loadLastDetected, 2000);
+// loadLastDetected();
+
+// const cleanName = data.nama.replace(/_/g, " ");
+// document.getElementById("idName").textContent = cleanName;
+
+
+// ==================================================================================
+
+// panggil awal
+loadLastDetected();
 loadStatusPresensi();
+
+// loop interval
+setInterval(() => {
+  loadLastDetected();
+  loadStatusPresensi();
+}, 3000);

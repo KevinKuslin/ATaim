@@ -7,12 +7,12 @@ import os
 import numpy as np
 import face_recognition
 
-# Path model dan database
+# Path ke Model, Faces, dan Database 
 MODEL_PATH = "model/best.pt" 
 FACES_DIR = "faces" 
 DB_PATH = "presensi.db"
 
-# Load wajah-wajah yang dikenali dari folder 'faces'
+# Face Encoding supaya Model Kenal Wajah Kita 
 known_face_encodings = []
 known_face_names = []
 
@@ -53,9 +53,7 @@ for filename in os.listdir(FACES_DIR):
             print(f"[WARN] Tidak ada wajah terdeteksi di {filename}")
     
     except Exception as e:
-        print(f"[ERROR] Gagal memproses {filename}: {e}")
-
-print(f"[INFO] Total wajah dimuat: {len(known_face_encodings)}")
+        print(f"Proses selesai untuk Face Encoding: {filename}")
 
 import cv2
 import face_recognition
@@ -63,9 +61,9 @@ import sqlite3
 from flask import Flask, Response, jsonify
 from datetime import datetime
 
-# ==============================
+
 # Konfigurasi Database
-# ==============================
+
 conn = sqlite3.connect("presensi.db", check_same_thread=False)
 c = conn.cursor()
 c.execute("""
@@ -108,10 +106,10 @@ def get_status_presensi():
         hasil.append({"nama": nama, "status": status})
     return hasil
 
-# Daftar anak-anak
+# Daftar Class 
 daftar_anak = ["Adriel Bernhard T", "Jonea Kristiawan", "Kevin Tanwiputra", "Kevin Jiovanni Kuslin"]
 
-# Load YOLOv8-OBB model
+# Load YOLOv8-OBB Model
 model = YOLO(MODEL_PATH)
 
 def get_status_presensi(daftar_anak):
@@ -126,7 +124,7 @@ from flask import Flask, Response, render_template, jsonify, request
 
 app = Flask(__name__)
 
-# Buka kamera sekali (global)
+# Inisialisasi Kamera Pakai CV2 Python 
 camera = cv2.VideoCapture(0) 
 
 def gen():
@@ -159,11 +157,11 @@ def gen():
 
 @app.route('/')
 def index():
-    # Ambil nama yang sudah hadir dari database
+    # Ambil Nama Mahasiswa yang Hadir 
     rows = c.execute("SELECT nama FROM presensi WHERE status='Hadir' ORDER BY waktu DESC").fetchall()
     nama_list = [row[0] for row in rows]
     
-    # Render template dan kirim nama_list
+    # Render Index.html dan Tampilin ke FrontEnd 
     return render_template('html/index.html', nama_list=nama_list)
 
 @app.route('/video_feed')
@@ -178,7 +176,7 @@ def status_presensi():
 
 @app.route("/reset_presensi", methods=["POST"])
 def reset_presensi_route():
-    c.execute("DELETE FROM presensi")  # hapus semua data presensi
+    c.execute("DELETE FROM presensi")  # Hapus Semua Data dari Database 
     conn.commit()
     return "OK", 200
 
@@ -193,17 +191,40 @@ def update_status():
     status = data.get("status")
     waktu = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # Cek apakah sudah ada record untuk nama ini
+    # Cek Keberadaan Record untuk Nama ini 
     row = c.execute("SELECT id FROM presensi WHERE nama=?", (nama,)).fetchone()
     if row:
-        # Update status
+        # Update Status 
         c.execute("UPDATE presensi SET status=?, waktu=? WHERE id=?", (status, waktu, row[0]))
     else:
-        # Insert baru
+        # Insert Baru 
         c.execute("INSERT INTO presensi (nama, status, waktu) VALUES (?, ?, ?)", (nama, status, waktu))
     conn.commit()
     return jsonify({"success": True})
 
+# ====================================================================================
+from flask import url_for
+
+@app.route("/api/last_detected")
+def last_detected():
+    row = c.execute("SELECT nama, waktu FROM presensi ORDER BY waktu DESC LIMIT 1").fetchone()
+    if not row:
+        return jsonify({"nama": None, "foto": None})
+
+    nama, waktu = row
+
+    # Cari foto sesuai nama
+    foto_path = None
+    for ext in [".jpg", ".jpeg", ".png"]:
+        filename = nama.replace(" ", "_") + ext
+        path = os.path.join("static/faces", filename)
+        if os.path.exists(path):
+            foto_path = url_for("static", filename=f"faces/{filename}")
+            break
+
+    return jsonify({"nama": nama, "foto": foto_path})
+
+# ====================================================================================================
 
 if __name__ == "__main__":
     try:
@@ -213,4 +234,4 @@ if __name__ == "__main__":
         # Kamera dilepas hanya saat server dihentikan (Ctrl+C)
         if camera.isOpened():
             camera.release()
-            print("✅ Kamera dilepas dengan aman")
+            print("✅ Flask Python dan Kamera Dimatikan")

@@ -1,0 +1,22 @@
+Jalankan pakai Python 3.10 karena file dlib (.whl) telah dicompile HANYA untuk Python 3.10 
+Tautan Unduh Python 3.10: https://www.python.org/downloads/release/python-3100/ 
+
+Buat Environment untuk Python 3.10 
+
+Install beberapa library ini: 
+
+pip install ultralytics 
+pip install flask 
+pip install cmake 
+pip install dlib-19.22.99-cp310-cp310-win_amd64.whl 
+pip install face_recogniton 
+pip install opencv-python 
+pip install opencv-contrib-python 
+pip install sqlitebrowser 
+pip install numpy 
+pip install matplotlib 
+
+Setelah itu, change directori (cd) ke direktori yang ada app.py 
+Lalu jalankan: 
+
+python app.py 

@@ -38,7 +38,15 @@
             <button class="btn btn-green" onclick="goStudent()">👥</button>
         </div>
 
-        <div class="id-card">Photo ID Card</div>
+        <div class="id-card">
+            <div class="id-photo">
+                <img id="idPhoto" src="{{ url_for('static', filename='assets/default.png') }}" width="120" height="120">
+            </div>
+            <div class="id-info">
+                <h4 id="idName">Belum ada yang terdeteksi</h4>
+                <p id="idDesc">Menunggu deteksi...</p>
+            </div>
+        </div>
 
         <div class="attendee">
             <h3>RECENT ATTENDEE</h3>
